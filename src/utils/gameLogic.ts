@@ -1,4 +1,4 @@
-import { BoardState, CellValue } from '../models/types';
+import { BoardState, CellValue, Player } from '../models/types';
 
 // Initialiser le plateau de jeu
 export const initializeBoard = (size: number): CellValue[][] => {
@@ -6,7 +6,7 @@ export const initializeBoard = (size: number): CellValue[][] => {
 };
 
 export type GameResult = {
-    winner: 'X' | 'O';
+    winner: Player;
     line: number[];
 };
 

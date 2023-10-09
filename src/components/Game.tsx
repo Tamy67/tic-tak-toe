@@ -1,14 +1,54 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Board from './Board';
 import { BoardState, CellValue } from '../models/types';
 import { initializeBoard, checkWinner } from '../utils/gameLogic';
+import { saveGameToStorage } from '../utils/storage';
+
+const getGameStateFromStorage = () => {
+    const gameStateFromStorage = window.localStorage.getItem('gameState');
+    if (gameStateFromStorage) {
+        return JSON.parse(gameStateFromStorage);
+    }
+    return {
+        board: initializeBoard(3),
+        player: 'X',
+        winner: null,
+        winningLine: null,
+        isDraw: false,
+    };
+};
 
 const Game: React.FC = () => {
-    const [board, setBoard] = useState<BoardState>(initializeBoard(3)); // État pour le plateau de jeu
-    const [currentPlayer, setCurrentPlayer] = useState<CellValue>('X'); // État pour le joueur actuel
-    const [winner, setWinner] = useState<CellValue | null>(null); // État pour le gagnant
-    const [winningLine, setWinningLine] = useState<number[] | null>(null);
-    const [isDraw, setIsDraw] = useState(false);
+    const [board, setBoard] = useState<BoardState>(
+        () => getGameStateFromStorage().board
+    );
+    const [currentPlayer, setCurrentPlayer] = useState<CellValue>(
+        () => getGameStateFromStorage().player
+    );
+    const [winner, setWinner] = useState<CellValue | null>(
+        () => getGameStateFromStorage().winner
+    );
+    const [winningLine, setWinningLine] = useState<number[] | null>(
+        () => getGameStateFromStorage().winningLine
+    );
+    const [isDraw, setIsDraw] = useState<boolean>(
+        () => getGameStateFromStorage().isDraw
+    );
+
+    useEffect(() => {
+        // Fonction qui sauvegarde l'état du jeu dans le localStorage
+        const saveGameState = () => {
+            saveGameToStorage({
+                board,
+                player: currentPlayer,
+                winningLine,
+                isDraw,
+            });
+        };
+
+        // Appel de la fonction de sauvegarde lorsqu'il y a un changement d'état dans le jeu
+        saveGameState();
+    }, [board, currentPlayer, winningLine, isDraw]);
 
     // Gérer le clic sur une cellule du tableau
     const handleBoardClick = (newBoard: BoardState, newPlayer: CellValue) => {
