@@ -17,8 +17,10 @@ const Board: React.FC<BoardProps> = ({
     winningLine,
 }) => {
     const handleCellClick = (row: number, col: number) => {
-        const newBoard = makeMove([...board], row, col, currentPlayer);
-        onBoardClick(newBoard, nextPlayer(currentPlayer));
+        if (board[row][col] === null) {
+            const newBoard = makeMove([...board], row, col, currentPlayer);
+            onBoardClick(newBoard, nextPlayer(currentPlayer));
+        }
     };
 
     return (
