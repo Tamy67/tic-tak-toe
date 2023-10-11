@@ -83,17 +83,19 @@ const Game: React.FC = () => {
         resetBoardState();
     };
 
+    const gameResult = winner
+        ? `Le gagnant est : ${winner}`
+        : isDraw
+        ? 'Match nul'
+        : `Tour de : ${currentPlayer}`;
+
     return (
         <div className='flex flex-col items-center'>
             <h1 className='text-3xl font-bold text-blue-950 underline mb-5'>
                 Tic-Tac-Toe
             </h1>
             <h2 className='text-xl font-medium text-blue-950 mb-5'>
-                {winner
-                    ? `Le gagnant est : ${winner}`
-                    : isDraw
-                    ? 'Match nul'
-                    : `Tour de : ${currentPlayer}`}
+                {gameResult}
             </h2>
 
             <Board
