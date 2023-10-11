@@ -1,12 +1,12 @@
 import React from 'react';
 import Cell from './Cell';
-import { BoardState, CellValue } from '../models/types';
+import { BoardState, Player } from '../models/types';
 import { makeMove, nextPlayer } from '../utils/gameLogic';
 
 type BoardProps = {
     board: BoardState;
-    onBoardClick: (newBoard: BoardState, newPlayer: CellValue) => void;
-    currentPlayer: CellValue;
+    onBoardClick: (newBoard: BoardState, newPlayer: Player) => void;
+    currentPlayer: Player;
     winningLine: number[] | null;
 };
 

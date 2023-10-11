@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Board from './Board';
-import { BoardState, CellValue } from '../models/types';
+import { BoardState, CellValue, Player } from '../models/types';
 import { initializeBoard, checkWinner } from '../utils/gameLogic';
 import { saveGameToStorage } from '../utils/storage';
 
@@ -51,7 +51,7 @@ const Game: React.FC = () => {
     }, [board, currentPlayer, winningLine, isDraw]);
 
     // Gérer le clic sur une cellule du tableau
-    const handleBoardClick = (newBoard: BoardState, newPlayer: CellValue) => {
+    const handleBoardClick = (newBoard: BoardState, newPlayer: Player) => {
         if (winner || isDraw) return;
         setBoard(newBoard);
 
